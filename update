@@ -1,0 +1,52 @@
+#!/bin/bash
+# kernel/update <new sublevel>
+
+if [ ! "$1" ]; then
+	echo "kernel/update <new sublevel>"
+	exit 1
+fi
+
+# determine old version
+cd `dirname $0`/linux
+TEMPFILE=`tempfile`
+head -n3 Makefile | sed -e 's/ //g' > $TEMPFILE
+source $TEMPFILE
+rm $TEMPFILE
+
+# download patches
+cd ../patches
+for i in `seq "$SUBLEVEL" "$(($1 - 1))"`; do
+	j="$((i + 1))"
+	FILE="patch-$VERSION.$PATCHLEVEL.$i-$j.xz"
+	if [ ! -f "$FILE" ]; then
+		wget "https://www.kernel.org/pub/linux/kernel/v3.x/incr/$FILE"
+	fi
+done
+
+# save config
+cd ../linux
+mv -v .config ../.config
+
+# clean source
+make distclean
+
+# update source
+git checkout linux
+for i in `seq "$SUBLEVEL" "$(($1 - 1))"`; do
+	j="$((i + 1))"
+	FILE="../patches/patch-$VERSION.$PATCHLEVEL.$i-$j.xz"
+	if [ -f "$FILE" ]; then
+		xzcat "$FILE" | patch -p1
+	fi
+done
+
+# update git repository
+git add .
+git commit -m "update to linux $VERSION.$PATCHLEVEL.$1"
+git tag "$VERSION.$PATCHLEVEL.$1"
+git checkout master 
+git merge linux
+git tag "$VERSION.$PATCHLEVEL.$1-rpi"
+
+# restore config
+mv -v ../.config .config

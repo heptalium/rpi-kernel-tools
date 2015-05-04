@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd `dirname $0`
+
+rm -f mkimage/kernel.img
+rm -rf modules
+
+cd linux
+source ../environment
+
+mv .config ..
+make distclean
+mv ../.config .
+
+make oldconfig
+make -j4
+make modules_install
+
+cd ../mkimage
+./imagetool-uncompressed.py ../linux/arch/arm/boot/Image
