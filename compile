@@ -8,9 +8,9 @@ rm -rf modules
 cd linux
 source ../environment
 
-mv .config ..
+mv -v .config ..
 make distclean
-mv ../.config .
+mv -v ../.config .
 
 make oldconfig
 make -j4
