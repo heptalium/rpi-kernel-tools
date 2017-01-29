@@ -30,23 +30,27 @@ mv -v .config ../.config
 # clean source
 make distclean
 
-# update source
-git checkout linux
+# update source and git repository
 for i in `seq "$SUBLEVEL" "$(($1 - 1))"`; do
 	j="$((i + 1))"
 	FILE="../patches/patch-$VERSION.$PATCHLEVEL.$i-$j.xz"
 	if [ -f "$FILE" ]; then
+		TIMESTAMP=`stat -c%Y $FILE`
+		TIMEZONE=`stat -c%y $FILE | cut -d ' ' -f 3`
+		export GIT_AUTHOR_DATE="$TIMESTAMP $TIMEZONE"
+		export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"
 		xzcat "$FILE" | patch -p1
+		git checkout linux
+		git add .
+		git commit -m "Update to Linux $VERSION.$PATCHLEVEL.$j"
+		git tag "$VERSION.$PATCHLEVEL.$j"
+		export GIT_AUTHOR_DATE="$(($TIMESTAMP + 1)) $TIMEZONE"
+		export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"
+		git checkout master
+		git merge linux
+		git tag "$VERSION.$PATCHLEVEL.$j-rpi"
 	fi
 done
-
-# update git repository
-git add .
-git commit -m "update to linux $VERSION.$PATCHLEVEL.$1"
-git tag "$VERSION.$PATCHLEVEL.$1"
-git checkout master 
-git merge linux
-git tag "$VERSION.$PATCHLEVEL.$1-rpi"
 
 # restore config
 mv -v ../.config .config
