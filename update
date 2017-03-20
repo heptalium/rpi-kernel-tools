@@ -39,8 +39,8 @@ for i in `seq "$SUBLEVEL" "$(($1 - 1))"`; do
 		TIMEZONE=`stat -c%y $FILE | cut -d ' ' -f 3`
 		export GIT_AUTHOR_DATE="$TIMESTAMP $TIMEZONE"
 		export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"
-		xzcat "$FILE" | patch -p1
 		git checkout linux
+		xzcat "$FILE" | patch -p1
 		git add .
 		git commit -m "Update to Linux $VERSION.$PATCHLEVEL.$j"
 		git tag "$VERSION.$PATCHLEVEL.$j"
