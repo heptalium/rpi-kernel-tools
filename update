@@ -19,7 +19,7 @@ for i in `seq "$SUBLEVEL" "$(($1 - 1))"`; do
 	j="$((i + 1))"
 	FILE="patch-$VERSION.$PATCHLEVEL.$i-$j.xz"
 	if [ ! -f "$FILE" ]; then
-		wget "https://www.kernel.org/pub/linux/kernel/v3.x/incr/$FILE"
+		wget "https://www.kernel.org/pub/linux/kernel/v$VERSION.x/incr/$FILE"
 	fi
 done
 
