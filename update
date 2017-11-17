@@ -46,6 +46,7 @@ for i in `seq "$SUBLEVEL" "$(($1 - 1))"`; do
 		git tag "$VERSION.$PATCHLEVEL.$j"
 		export GIT_AUTHOR_DATE="$(($TIMESTAMP + 1)) $TIMEZONE"
 		export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"
+		export GIT_MERGE_AUTOEDIT='no'
 		git checkout master
 		git merge linux
 		git tag "$VERSION.$PATCHLEVEL.$j-rpi"
