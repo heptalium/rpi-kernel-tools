@@ -6,7 +6,7 @@ rm -f mkimage/kernel.img
 rm -rf modules
 
 cd linux
-source ../environment
+source ../environment-armv6
 
 mv -v .config ..
 make distclean
