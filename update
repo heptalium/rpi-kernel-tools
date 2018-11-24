@@ -8,7 +8,7 @@ fi
 
 # determine old version
 cd `dirname $0`/linux
-TEMPFILE=`tempfile`
+TEMPFILE=`mktemp`
 head -n3 Makefile | sed -e 's/ //g' > $TEMPFILE
 source $TEMPFILE
 rm $TEMPFILE
