@@ -1,13 +1,13 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.19.75 Kernel Configuration
+# Linux/arm64 4.19.90 Kernel Configuration
 #
 
 #
-# Compiler: aarch64-linux-gnu-gcc (Debian 6.3.0-18) 6.3.0 20170516
+# Compiler: aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0
 #
 CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=60300
+CONFIG_GCC_VERSION=80300
 CONFIG_CLANG_VERSION=0
 CONFIG_CC_HAS_ASM_GOTO=y
 CONFIG_IRQ_WORK=y
@@ -812,6 +812,7 @@ CONFIG_EXTRA_FIRMWARE=""
 # CONFIG_DEBUG_TEST_DRIVER_REMOVE is not set
 # CONFIG_TEST_ASYNC_DRIVER_PROBE is not set
 CONFIG_GENERIC_CPU_AUTOPROBE=y
+CONFIG_GENERIC_CPU_VULNERABILITIES=y
 CONFIG_DMA_CMA=y
 
 #
@@ -977,6 +978,7 @@ CONFIG_NET_CORE=y
 # CONFIG_NET_TEAM is not set
 # CONFIG_MACVLAN is not set
 # CONFIG_VXLAN is not set
+# CONFIG_GENEVE is not set
 # CONFIG_GTP is not set
 # CONFIG_MACSEC is not set
 # CONFIG_NETCONSOLE is not set
@@ -1308,10 +1310,10 @@ CONFIG_MFD_CORE=y
 #
 # Frame buffer Devices
 #
-CONFIG_FB=y
-# CONFIG_FIRMWARE_EDID is not set
 CONFIG_FB_CMDLINE=y
 CONFIG_FB_NOTIFY=y
+CONFIG_FB=y
+# CONFIG_FIRMWARE_EDID is not set
 CONFIG_FB_CFB_FILLRECT=y
 CONFIG_FB_CFB_COPYAREA=y
 CONFIG_FB_CFB_IMAGEBLIT=y
@@ -1598,7 +1600,6 @@ CONFIG_USB_SERIAL_PL2303=m
 # CONFIG_USB_EMI26 is not set
 # CONFIG_USB_ADUTUX is not set
 # CONFIG_USB_SEVSEG is not set
-# CONFIG_USB_RIO500 is not set
 # CONFIG_USB_LEGOTOWER is not set
 # CONFIG_USB_LCD is not set
 # CONFIG_USB_CYPRESS_CY7C63 is not set
@@ -1755,6 +1756,7 @@ CONFIG_COMMON_CLK=y
 # CONFIG_CLK_HSDK is not set
 # CONFIG_CLK_QORIQ is not set
 CONFIG_COMMON_CLK_XGENE=y
+# CONFIG_CLK_RASPBERRYPI is not set
 # CONFIG_HWSPINLOCK is not set
 
 #
@@ -1789,7 +1791,6 @@ CONFIG_BCM2835_MBOX=y
 #
 # CONFIG_RPMSG_QCOM_GLINK_RPM is not set
 # CONFIG_RPMSG_VIRTIO is not set
-# CONFIG_SOUNDWIRE is not set
 
 #
 # SOC (System On Chip) specific Drivers
