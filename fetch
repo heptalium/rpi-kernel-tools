@@ -1,0 +1,34 @@
+#!/bin/bash
+# kernel/fetch
+
+set -e
+
+# set repository and branch name
+REPO='linux'
+BRANCH='rpi-4.19.y'
+
+# determine file name, source URL and directory name
+FILE="${BRANCH}.zip"
+SOURCE="https://github.com/raspberrypi/${REPO}/archive/${FILE}"
+DIR="${REPO}-${BRANCH}"
+
+# change to script directory 
+cd `dirname $0`
+
+# remove previously existing linux directory
+rm -rf 'linux'
+
+# download kernel source
+wget "$SOURCE"
+
+# unpack kernel source
+unzip -q "$FILE"
+
+# move kernel source
+mv -v "$DIR" 'linux'
+
+# patch kernel source
+patch -p1 -d 'linux' < 'patches/original_logo.patch'
+
+# cleanup
+rm -fv "$FILE"
