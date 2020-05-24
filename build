@@ -1,0 +1,54 @@
+#!/bin/bash
+# kernel/build <profile>
+
+if [ ! "$1" ]; then
+	echo 'usage: kernel/build <profile>' 1>&2
+	exit 1
+fi
+
+set -e
+
+PROFILE="$1"
+
+# change to kernel source tree
+cd $(dirname $0)/linux
+
+# determine kernel version
+VERSION=$(make -s kernelversion | cut -d . -f 1-2)
+
+# load profile
+source "../profiles/${PROFILE}"
+
+# load environment
+source "../environments/${ENVIRONMENT}"
+
+# clean kernel source tree
+make distclean
+
+# clean install path
+rm -rfv "$INSTALL_MOD_PATH"
+
+# copy config
+cp -v "../configs/${CONFIG}/config-${VERSION}" '.config'
+
+# calculate number of parallel jobs
+JOBS=$(awk '/^processor/ {n++} END {print n}' /proc/cpuinfo)
+
+# build kernel
+make -j "$JOBS"
+
+# copy files into build root
+make modules_install
+KERNELRELEASE=$(make -s kernelrelease)
+rm "${INSTALL_MOD_PATH}/lib/modules/${KERNELRELEASE}/source" "${INSTALL_MOD_PATH}/lib/modules/${KERNELRELEASE}/build"
+mkdir -p "${INSTALL_MOD_PATH}/boot/overlays"
+cp -v "arch/${ARCH}/boot/${IMAGE}" "${INSTALL_MOD_PATH}/boot/${KERNEL}.img"
+cp -v "arch/${ARCH}/boot/dts/$(test "$ARCH" = 'arm64' && echo 'broadcom/')${DTB}" "${INSTALL_MOD_PATH}/boot"
+cp -v "arch/${ARCH}/boot/dts/overlays"/*.dtbo "${INSTALL_MOD_PATH}/boot/overlays"
+
+# clean linux source tree
+make distclean
+
+# create install archive
+cd "$INSTALL_MOD_PATH"
+fakeroot tar czvf "../kernel-${KERNELRELEASE}-${PROFILE}.tgz" --sort=name "boot/${KERNEL}.img" "boot/${DTB}" "boot/overlays" "lib/modules/${KERNELRELEASE}"

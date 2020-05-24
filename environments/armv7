@@ -1,4 +1,5 @@
-#!/bin/bash
 export ARCH='arm'
 export CROSS_COMPILE='/usr/bin/arm-linux-gnueabihf-'
 export INSTALL_MOD_PATH='../modules'
+IMAGE='zImage'
+KERNEL='kernel7'

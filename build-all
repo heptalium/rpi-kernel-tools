@@ -1,0 +1,13 @@
+#!/bin/bash
+# kernel/build-all
+
+set -e
+
+# change to kernel source tree
+cd $(dirname $0)
+
+# build all profiles
+for PROFILE in $(ls profiles)
+do
+	./build "$PROFILE"
+done

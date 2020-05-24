@@ -1,3 +1,3 @@
+/kernel-*.tgz
 /modules/
-/mkimage/kernel.img
 /patches/patch-*.xz

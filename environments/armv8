@@ -1,4 +1,5 @@
-#!/bin/bash
 export ARCH='arm64'
 export CROSS_COMPILE='/usr/bin/aarch64-linux-gnu-'
 export INSTALL_MOD_PATH='../modules'
+IMAGE='Image'
+KERNEL='kernel8'

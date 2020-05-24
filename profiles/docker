@@ -1,0 +1,3 @@
+ENVIRONMENT='armv8'
+CONFIG='armv8/docker'
+DTB='bcm2710-rpi-3-b.dtb'
