@@ -2,7 +2,7 @@
 # kernel/update <new sublevel>
 
 if [ ! "$1" ]; then
-	echo "kernel/update <new sublevel>"
+	echo "usage: kernel/update <new sublevel>" 1>&2
 	exit 1
 fi
 
